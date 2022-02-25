@@ -10,8 +10,9 @@ import { ConnexionService, InscriptionService } from '../services/login.service'
 })
 export class LoginFormComponent implements OnInit {
   loginForm!: FormGroup;
-  attributsConnexion!: {}[];
-  attributsInscription!: {}[];
+  inscriptionForm!: FormGroup;
+  attributsConnexion!: {name: string, label: string, class: string, type:string, value: string}[];
+  attributsInscription!: {name: string, ngif: boolean, label: string, class: string, type: string, value: string}[];
 
   constructor(private formBuilder: FormBuilder, private connexionService: ConnexionService, private inscriptionService: InscriptionService) { }
 
@@ -20,6 +21,20 @@ export class LoginFormComponent implements OnInit {
       name: [],
       password: []
     });
+    this.inscriptionForm = this.formBuilder.group({
+      newName: [],
+      newFirstName: [],
+      newSiret: [],
+      newAddress: [],
+      newCode: [],
+      newCity: [],
+      newPhoneNumber: [],
+      newContact: [],
+      newEmail: [],
+      newUsername: [],
+      newPassword: [],
+      newPasswordConfirm: []
+    });
 
     this.attributsConnexion = this.connexionService.attributs;
     this.attributsInscription = this.inscriptionService.attributs;
@@ -27,6 +42,17 @@ export class LoginFormComponent implements OnInit {
 
   verifLogin(){
     this.connexionService.verif();
+  }
+
+  verifInscription(){
+    this.inscriptionService.verif();
+  }
+
+  nav(parameter: string){
+    if (parameter === 'customer')
+      this.inscriptionService.navCustomer();
+    if (parameter === 'entreprise')
+      this.inscriptionService.navEntreprise();
   }
 
 }
